@@ -1,0 +1,340 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    width: 100vw;
+    background: linear-gradient(to right, #87d1a4 0%, #b3e3c5 60%, #cbebd7 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+    padding: 20px;
+}
+
+/* ==========================================
+   CONTENEDOR PRINCIPAL DASHBOARD (GLASS)
+   ========================================== */
+.dashboard-container {
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+    height: 85vh;
+    min-height: 650px;
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.03);
+    overflow: hidden;
+}
+
+/* ==========================================
+   BARRA LATERAL (SIDEBAR)
+   ========================================== */
+.sidebar {
+    width: 280px;
+    background: rgba(255, 255, 255, 0.6);
+    border-right: 1px solid rgba(45, 106, 79, 0.1);
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.logo-mini {
+    width: 35px;
+    height: 35px;
+    background: #2d6a4f;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 16px;
+}
+
+.brand h2 {
+    font-size: 18px;
+    color: #1b4332;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+/* Caja de Perfil */
+.user-profile-box {
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 16px;
+    padding: 20px 15px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    margin-bottom: 25px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.01);
+}
+
+.avatar {
+    width: 60px;
+    height: 60px;
+    background: #b3e3c5;
+    color: #1b4332;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 28px;
+    margin: 0 auto 10px auto;
+}
+
+.user-profile-box h3 {
+    font-size: 15px;
+    color: #1b4332;
+    font-weight: 600;
+}
+
+.user-profile-box p {
+    font-size: 11px;
+    color: #40916c;
+    margin-bottom: 8px;
+}
+
+.badge-role {
+    display: inline-block;
+    padding: 3px 10px;
+    font-size: 10px;
+    font-weight: 600;
+    border-radius: 20px;
+    margin-bottom: 12px;
+}
+
+.user-role {
+    background: #d8f3dc;
+    color: #2d6a4f;
+}
+
+.btn-view-profile {
+    display: block;
+    font-size: 12px;
+    color: #2d6a4f;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+.btn-view-profile:hover {
+    color: #1b4332;
+    text-decoration: underline;
+}
+
+/* Menú de Navegación */
+.nav-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    height: 100%; /* Permite empujar el botón de salida hacia el fondo */
+}
+
+.nav-menu a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 15px;
+    color: #40916c;
+    text-decoration: none;
+    font-size: 13.5px;
+    font-weight: 500;
+    border-radius: 10px;
+    transition: all 0.2s;
+}
+
+.nav-menu a:hover, .nav-menu a.active {
+    background: #2d6a4f;
+    color: white;
+}
+
+.nav-menu .admin-only {
+    border-top: 1px solid rgba(45, 106, 79, 0.1);
+    margin-top: 10px;
+    padding-top: 15px;
+}
+
+.nav-menu .logout-link {
+    margin-top: auto; /* Empuja el enlace de cerrar sesión hasta abajo */
+    color: #c91818;
+}
+
+.nav-menu .logout-link:hover {
+    background: rgba(201, 24, 24, 0.1);
+    color: #c91818;
+}
+
+/* ==========================================
+   ÁREA DE CONTENIDO (MAIN CONTENT)
+   ========================================== */
+.main-content {
+    flex: 1;
+    padding: 30px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.section-header h2 {
+    font-size: 20px;
+    color: #1b4332;
+    font-weight: 600;
+}
+
+.section-header p {
+    font-size: 13px;
+    color: #40916c;
+    margin-top: 2px;
+}
+
+/* Zona de Carga (Upload Zone) */
+.upload-zone {
+    background: rgba(255, 255, 255, 0.35);
+    border: 2px dashed #52b788;
+    border-radius: 16px;
+    padding: 35px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.upload-zone:hover {
+    background: rgba(255, 255, 255, 0.6);
+}
+
+.pdf-upload-icon {
+    font-size: 42px;
+    color: #2d6a4f;
+    margin-bottom: 10px;
+}
+
+.upload-zone h3 {
+    font-size: 14px;
+    color: #1b4332;
+    font-weight: 500;
+}
+
+.upload-zone h3 span {
+    color: #2d6a4f;
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+.upload-zone p {
+    font-size: 11px;
+    color: #52b788;
+    margin-top: 4px;
+}
+
+/* ==========================================
+   TABLAS ESTILIZADAS COMPARTIDAS
+   ========================================== */
+.table-container {
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 14px;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.table-container h3 {
+    font-size: 14px;
+    color: #1b4332;
+    margin-bottom: 12px;
+}
+
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    text-align: left;
+}
+
+.styled-table th {
+    color: #2d6a4f;
+    font-weight: 600;
+    padding: 10px;
+    border-bottom: 2px solid rgba(45, 106, 79, 0.15);
+}
+
+.styled-table td {
+    padding: 12px 10px;
+    color: #1b4332;
+    border-bottom: 1px solid rgba(45, 106, 79, 0.08);
+}
+
+.text-danger { color: #e63946; }
+
+/* Estados de Documento (Badges) */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 6px;
+}
+
+.status-badge.pending {
+    background: #ffe3e0;
+    color: #d9381e;
+}
+
+.status-badge.approved {
+    background: #d8f3dc;
+    color: #2d6a4f;
+}
+
+/* ==========================================
+   COMPONENTES EXCLUSIVOS DEL SUPERVISOR
+   ========================================== */
+.admin-section {
+    border-top: 1px dashed rgba(45, 106, 79, 0.2);
+    padding-top: 25px;
+}
+
+.admin-table small {
+    color: #52b788;
+}
+
+.actions-td {
+    display: flex;
+    gap: 6px;
+}
+
+/* Botones de acción rápidos */
+.btn-action {
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 13px;
+    transition: transform 0.1s;
+}
+
+.btn-action:active { transform: scale(0.95); }
+
+.btn-review { background: #e0f2fe; color: #0369a1; }
+.btn-approve { background: #d8f3dc; color: #2d6a4f; }
+.btn-reject { background: #fee2e2; color: #b91c1c; }

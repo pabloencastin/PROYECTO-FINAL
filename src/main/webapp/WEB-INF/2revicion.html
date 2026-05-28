@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TERCERA PARTE ECO--LEGAL REVISION ISTITUSIONAL</title>
+    <link rel="stylesheet" href="2revicion.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="logo-mini"><i class="fa-solid fa-gavel"></i></div>
+                <h2>ECO-LEGAL</h2>
+            </div>
+
+            <div class="user-profile-box">
+                <div class="avatar admin-avatar"><i class="fa-solid fa-user-shield"></i></div>
+                <h3 id="txtNombre">Cargando...</h3>
+                <p>revisor.legal@uaemex.mx</p>
+                <span class="badge-role admin-role">Supervisor</span>
+            </div>
+
+            <nav class="nav-menu">
+                <a href="#" class="active"><i class="fa-solid fa-folder-shield"></i> Dictámenes</a>
+                
+                <a href="0Index.css.html" class="back-link"><i class="fa-solid fa-arrow-left-long"></i> Regresar</a>
+                
+                <a href="#" id="btnLogout" class="logout-link"><i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="main-header">
+                <div class="welcome-text">
+                    <h2>BANDEJA DE VALIDACION ISTITUCIONAL</h2>
+                    <p>Auditoría y control de expedientes sustentables.</p>
+                </div>
+
+                <div class="eco-counters">
+                    <div class="counter-card">
+                        <i class="fa-solid fa-leaf text-success"></i>
+                        <div>
+                            <h3>120 kg</h3>
+                            <p>Papel Ahorrado</p>
+                        </div>
+                    </div>
+                    <div class="counter-card">
+                        <i class="fa-solid fa-signature text-info"></i>
+                        <div>
+                            <h3>42</h3>
+                            <p>Firmados Hoy</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <div class="table-header-box">
+                    <h3>Expedientes Académicos Pendientes por Revisar</h3>
+                    <p class="table-subtitle"> Documentos sin dictamen oficial asignado</p>
+                </div>
+
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Estudiante</th>
+                            <th>Proyecto</th>
+                            <th>Documento PDF</th>
+                            <th>Código Hash</th>
+                            <th>Estado</th>
+                            <th>Herramientas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="member-info">
+                                <b>Pablo Encastín C.</b><br>
+                                <small>UAEM C.U. Valle de México</small>
+                            </td>
+                            <td>Eco-Legal</td>
+                            <td><i class="fa-regular fa-file-pdf pdf-color"></i> <code>Servicio_Social.pdf</code></td>
+                            <td><code>SHA-256: 8f3a...</code></td>
+                            <td><span class="status-badge pending" id="status-actual"><i class="fa-solid fa-spinner"></i> Pendiente</span></td>
+                            <td class="actions-cell">
+                                <button class="btn-tool btn-dictamen" title="Emitir Dictamen Oficial" onclick="abrirModalDictamen('Servicio_Social.pdf', 'Pablo Encastín C.')"><i class="fa-solid fa-file-signature"></i></button>
+                                
+                                <button class="btn-tool btn-comment" title="Añadir Observación Rápida" onclick="abrirModal('Observaciones', 'Servicio_Social.pdf')"><i class="fa-regular fa-comment-dots"></i></button>
+                                <button class="btn-tool btn-return" title="Devolver para Corrección" onclick="abrirModal('Devolución', 'Servicio_Social.pdf')"><i class="fa-solid fa-rotate-left"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <div class="modal-overlay" id="modalReview">
+        <div class="modal-card">
+            <h3 id="modal-title-target"><i class="fa-regular fa-comment-dots"></i> Añadir Observaciones</h3>
+            <p id="modal-doc-target">Documento: archivo.pdf</p>
+            
+            <div class="form-grid">
+                <textarea id="modalFeedback" placeholder="Escribe aquí las notas de la revisión..."></textarea>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn-modal btn-cancel" onclick="cerrarModal('modalReview')">Cancelar</button>
+                <button class="btn-modal btn-save" onclick="guardarDictamenRapido()">Guardar Cambios</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modalFormalDictamen">
+        <div class="modal-card">
+            <h3><i class="fa-solid fa-gavel" style="color: #1b4332;"></i> Resolución de Expediente</h3>
+            <p id="modal-dictamen-doc" style="font-size: 12px; color: #2d6a4f; font-weight: 600; margin-bottom: 12px;">Documento: Servicio_Social.pdf</p>
+            
+            <div class="form-grid">
+                <label style="font-size: 12px; font-weight: 600; color: #1b4332;">Dictamen Institucional:</label>
+                <select id="selectResolucion" style="padding: 10px; border-radius: 6px; border: 1px solid rgba(45, 106, 79, 0.2); outline: none; font-size: 12.5px; background: white;">
+                    <option value="approved">Aprobar Documento</option>
+                    <option value="returned">Devolver para Corrección Técnica</option>
+                </select>
+
+                <label style="font-size: 12px; font-weight: 600; color: #1b4332; margin-top: 5px;">Especificaciones y Requerimientos Solicitados:</label>
+                <textarea id="textEspecificaciones" placeholder="Indica detalladamente los criterios o modificaciones que el alumno debe cumplir para que suba el archivo correctamente..."></textarea>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn-modal btn-cancel" onclick="cerrarModal('modalFormalDictamen')">Cancelar</button>
+                <button class="btn-modal btn-save" onclick="ejecutarDictamenFinal()">Emitir Fallo</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('txtNombre').textContent = localStorage.getItem('usuarioNombre') || 'Supervisor Legal';
+            
+            document.getElementById('btnLogout').addEventListener('click', (e) => {
+                e.preventDefault();
+                localStorage.clear();
+                window.location.href = '0Index.css.html';
+            });
+        });
+
+        // Funciones para Modales Genéricos
+        function abrirModal(tipo, documento) {
+            const overlay = document.getElementById('modalReview');
+            const title = document.getElementById('modal-title-target');
+            const docText = document.getElementById('modal-doc-target');
+            const textarea = document.getElementById('modalFeedback');
+
+            docText.textContent = `Expediente: ${documento}`;
+            textarea.value = '';
+
+            if (tipo === 'Devolución') {
+                title.innerHTML = `<i class="fa-solid fa-rotate-left" style="color: #ea580c;"></i> Devolver para Corrección`;
+                textarea.placeholder = 'Especifica qué correcciones estructurales hacen falta...';
+            } else {
+                title.innerHTML = `<i class="fa-regular fa-comment-dots" style="color: #0284c7;"></i> Añadir Observaciones`;
+                textarea.placeholder = 'Añade notas internas de auditoría...';
+            }
+
+            overlay.classList.add('active');
+        }
+
+        // Funciones para el Nuevo Modal de Dictamen Técnico
+        function abrirModalDictamen(documento, estudiante) {
+            document.getElementById('modal-dictamen-doc').textContent = `Documento: ${documento} (${estudiante})`;
+            document.getElementById('textEspecificaciones').value = '';
+            document.getElementById('modalFormalDictamen').classList.add('active');
+        }
+
+        function cerrarModal(idModal) {
+            document.getElementById(idModal).classList.remove('active');
+        }
+
+        function guardarDictamenRapido() {
+            if(!document.getElementById('modalFeedback').value.trim()) {
+                alert('Por favor, escribe un comentario.');
+                return;
+            }
+            alert('Observación guardada.');
+            cerrarModal('modalReview');
+        }
+
+        // Aplicación del dictamen simulado directamente en la interfaz
+        function ejecutarDictamenFinal() {
+            const resolucion = document.getElementById('selectResolucion').value;
+            const especificaciones = document.getElementById('textEspecificaciones').value.trim();
+            const badgeEstado = document.getElementById('status-actual');
+
+            if(!especificaciones) {
+                alert('Es obligatorio ingresar las especificaciones requeridas para el estudiante.');
+                return;
+            }
+
+            if(resolucion === 'approved') {
+                badgeEstado.className = "status-badge approved";
+                badgeEstado.innerHTML = `<i class="fa-solid fa-check"></i> Aprobado`;
+                alert('El documento ha sido firmado electrónicamente y Aprobado.');
+            } else {
+                badgeEstado.className = "status-badge returned";
+                badgeEstado.innerHTML = `<i class="fa-solid fa-rotate-left"></i> Devuelto`;
+                alert('Expediente rechazado. Se notificaron las especificaciones solicitadas al alumno para su reenvío.');
+            }
+
+            cerrarModal('modalFormalDictamen');
+        }
+    </script>
+</body>
+</html>

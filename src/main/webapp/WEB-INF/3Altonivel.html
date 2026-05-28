@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eco-Legal - Panel Administrador Supremo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            min-height: 100vh; width: 100vw;
+            background: linear-gradient(to right, #87d1a4 0%, #b3e3c5 60%, #cbebd7 100%);
+            display: flex; justify-content: center; align-items: center;
+            padding: 20px; overflow: hidden;
+        }
+
+        .dashboard-container {
+            display: flex; width: 100%; max-width: 1400px;
+            height: 92vh; background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+            border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.03); overflow: hidden;
+        }
+
+        .sidebar {
+            width: 280px; background: rgba(255, 255, 255, 0.6);
+            border-right: 1px solid rgba(45, 106, 79, 0.1);
+            display: flex; flex-direction: column; padding: 30px 20px;
+        }
+
+        .brand { display: flex; align-items: center; gap: 12px; margin-bottom: 35px; }
+        .logo-mini { 
+            width: 38px; height: 38px; background: #1b4332; 
+            border-radius: 8px; display: flex; justify-content: center; 
+            align-items: center; color: white; font-size: 18px;
+        }
+        .brand h2 { color: #1b4332; font-size: 16px; font-weight: 700; }
+
+        .user-profile {
+            text-align: center; background: rgba(255, 255, 255, 0.6);
+            padding: 20px 15px; border-radius: 14px; margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+        .avatar-master { 
+            width: 60px; height: 60px; background: #1b4332; color: white; 
+            border-radius: 50%; display: flex; justify-content: center; 
+            align-items: center; font-size: 26px; margin: 0 auto 12px;
+        }
+        .user-profile h3 { color: #1b4332; font-size: 14px; font-weight: 600; }
+        .user-profile p { color: #40916c; font-size: 11px; }
+        .badge-master { 
+            display: inline-block; padding: 3px 12px; background: #1b4332; 
+            color: #d8f3dc; border-radius: 12px; font-size: 9.5px; font-weight: 600; 
+            margin-top: 10px; text-transform: uppercase;
+        }
+
+        .nav-menu { display: flex; flex-direction: column; gap: 6px; flex: 1; }
+        .nav-menu a {
+            display: flex; align-items: center; gap: 12px; padding: 12px 15px;
+            color: #40916c; text-decoration: none; font-size: 13px;
+            border-radius: 8px; transition: 0.2s; font-weight: 500;
+        }
+        .nav-menu a:hover, .nav-menu a.active { background: #2d6a4f; color: white; }
+
+        .logout { color: #b91c1c !important; margin-top: auto; border-top: 1px solid rgba(45, 106, 79, 0.1); padding-top: 20px !important; }
+        .logout:hover { background: rgba(185, 28, 28, 0.1) !important; }
+
+        .main-content { flex: 1; padding: 40px; overflow-y: auto; background: rgba(255, 255, 255, 0.2); }
+        .header-main { margin-bottom: 30px; }
+        .header-main h1 { font-size: 24px; color: #1b4332; font-weight: 600; }
+        .header-main p { color: #40916c; font-size: 13px; }
+
+        .section-card {
+            background: rgba(255, 255, 255, 0.5); border-radius: 12px;
+            padding: 24px; margin-bottom: 25px; border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        .section-title { 
+            display: flex; justify-content: space-between; align-items: center; 
+            margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(45, 106, 79, 0.1);
+        }
+        .section-title h3 { font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 10px; color: #1b4332; }
+
+        .btn-action-primary {
+            background: #2d6a4f; color: white; border: none; padding: 8px 14px; 
+            border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600;
+            display: flex; align-items: center; gap: 6px; transition: 0.2s;
+        }
+        .btn-action-primary:hover { background: #1b4332; }
+
+        .data-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+        .data-table th { text-align: left; padding: 12px 10px; color: #2d6a4f; font-weight: 600; border-bottom: 2px solid rgba(45, 106, 79, 0.12); }
+        .data-table td { padding: 14px 10px; border-bottom: 1px solid rgba(45, 106, 79, 0.06); color: #1b4332; }
+        .data-table tr:hover { background: rgba(255,255,255,0.3); }
+
+        .status { padding: 3px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; }
+        .status.active { background: #d8f3dc; color: #2d6a4f; }
+
+        .actions { display: flex; gap: 6px; }
+        .btn-table-edit { background: #fff; color: #2d6a4f; border: 1px solid rgba(45, 106, 79, 0.2); padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: 600; }
+        .btn-table-edit:hover { background: #2d6a4f; color: white; }
+        .btn-table-delete { background: rgba(185, 28, 28, 0.1); color: #b91c1c; border: 1px solid rgba(185, 28, 28, 0.2); padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; }
+        .btn-table-delete:hover { background: #b91c1c; color: white; }
+
+        code { font-family: monospace; background: rgba(0,0,0,0.05); padding: 2px 6px; border-radius: 4px; color: #1b4332; }
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="logo-mini"><i class="fa-solid fa-folder-tree"></i></div>
+                <h2>ECO-LEGAL</h2>
+            </div>
+
+            <div class="user-profile">
+                <div class="avatar-master"><i class="fa-solid fa-user-gear"></i></div>
+                <h3 id="masterName">Director General</h3>
+                <p>admin.supremo@uaemex.mx</p>
+                <span class="badge-master">Administrador Supremo</span>
+            </div>
+
+            <nav class="nav-menu">
+                <a href="#alumnos" class="active"><i class="fa-solid fa-users"></i> Control Alumnos</a>
+                <a href="0Index.css.html" class="logout"><i class="fa-solid fa-power-off"></i> Cerrar Sesión</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="header-main">
+                <h1>Panel Corporativo de Alta Dirección</h1>
+                <p>Gestión completa de accesos institucionales y repositorio del ecosistema Eco-Legal.</p>
+            </div>
+
+            <section class="section-card" id="alumnos">
+                <div class="section-title">
+                    <h3><i class="fa-solid fa-graduation-cap"></i> Padrón de Alumnos (Control de Acceso)</h3>
+                    <button class="btn-action-primary" onclick="capturarYEnviarUsuario('Alumno')"><i class="fa-solid fa-plus"></i> Agregar Alumno</button>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Nombre Completo</th>
+                            <th>Correo de Usuario</th>
+                            <th>Contraseña</th>
+                            <th>Estatus</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><b>Pablo Encastín Capulín</b></td>
+                            <td><code>pablo@uaemex.mx</code></td>
+                            <td><code>pablo2026</code></td>
+                            <td><span class="status active">Activo</span></td>
+                            <td class="actions">
+                                <button class="btn-table-edit" onclick="editarElemento('Pablo Encastín')">Editar</button>
+                                <button class="btn-table-delete" onclick="eliminarElemento()">Baja</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="section-card" id="admin">
+                <div class="section-title">
+                    <h3><i class="fa-solid fa-user-shield"></i> Personal de Revisión Técnica</h3>
+                    <button class="btn-action-primary" onclick="capturarYEnviarUsuario('Revisor')"><i class="fa-solid fa-user-check"></i> Agregar Personal de Revisión</button>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Nombre del Evaluador</th>
+                            <th>Correo Electrónico</th>
+                            <th>Contraseña de Acceso</th>
+                            <th>Departamento</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><b>Supervisor Jurídico UAEM</b></td>
+                            <td><code>supervisor@uaemex.mx</code></td>
+                            <td><code>12345</code></td>
+                            <td>Revisión de Archivos</td>
+                            <td class="actions">
+                                <button class="btn-table-edit" onclick="editarElemento('Supervisor')">Modificar</button>
+                                <button class="btn-table-delete" onclick="eliminarElemento()">Remover</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="section-card" id="repositorio">
+                <div class="section-title">
+                    <h3><i class="fa-solid fa-crown"></i> Administradores del Sistema (Control Total)</h3>
+                    <button class="btn-action-primary" onclick="capturarYEnviarUsuario('Administrador')"><i class="fa-solid fa-shield-halved"></i> Agregar Administrador</button>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Nombre del Encargado</th>
+                            <th>Correo Maestro</th>
+                            <th>Contraseña Suprema</th>
+                            <th>Nivel de Permisos</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><b>Director General</b></td>
+                            <td><code>admin.supremo@uaemex.mx</code></td>
+                            <td><code>master2026</code></td>
+                            <td><span class="status active" style="background:#1b4332; color:white;">ROOT / TODO</span></td>
+                            <td class="actions">
+                                <button class="btn-table-edit" onclick="editarElemento('Director General')">Ajustes</button>
+                                <button class="btn-table-delete" onclick="eliminarElemento()">Quitar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const nombreAdmin = localStorage.getItem('usuarioNombre') || 'Director General';
+            document.getElementById('masterName').textContent = nombreAdmin;
+
+            let usuariosDestino = [];
+            try {
+                usuariosDestino = JSON.parse(localStorage.getItem('usuariosEcosystem')) || [];
+            } catch(e) {
+                usuariosDestino = [];
+            }
+
+            usuariosDestino.forEach((usuario, index) => {
+                let tablaTarget;
+                let filaHTML = '';
+
+                if (usuario.rol === "Alumno") {
+                    tablaTarget = document.querySelector('#alumnos .data-table tbody');
+                    filaHTML = `
+                        <tr>
+                            <td><b>${usuario.nombre}</b></td>
+                            <td><code>${usuario.correo}</code></td>
+                            <td><code>${usuario.clave}</code></td>
+                            <td><span class="status active">Activo</span></td>
+                            <td class="actions">
+                                <button class="btn-table-edit" onclick="editarElemento('${usuario.nombre}')">Editar</button>
+                                <button class="btn-table-delete" onclick="eliminarMultiUsuario(${index})">Baja</button>
+                            </td>
+                        </tr>
+                    `;
+                } 
+                else if (usuario.rol === "Personal de Revisión") {
+                    tablaTarget = document.querySelector('#admin .data-table tbody');
+                    filaHTML = `
+                        <tr>
+                            <td><b>${usuario.nombre}</b></td>
+                            <td><code>${usuario.correo}</code></td>
+                            <td><code>${usuario.clave}</code></td>
+                            <td>Gestión Local</td>
+                            <td class="actions">
+                                <button class="btn-table-edit" onclick="editarElemento('${usuario.nombre}')">Modificar</button>
+                                <button class="btn-table-delete" onclick="eliminarMultiUsuario(${index})">Remover</button>
+                            </td>
+                        </tr>
+                    `;
+                } 
+                else if (usuario.rol === "Administrador Supremo") {
+                    tablaTarget = document.querySelector('#repositorio .data-table tbody');
+                    filaHTML = `
+                        <tr>
+                            <td><b>${usuario.nombre}</b></td>
+                            <td><code>${usuario.correo}</code></td>
+                            <td><code>${usuario.clave}</code></td>
+                            <td><span class="status active" style="background:#1b4332; color:white;">ROOT / EXTRA</span></td>
+                            <td class="actions">
+                                <button class="btn-table-edit" onclick="editarElemento('${usuario.nombre}')">Ajustes</button>
+                                <button class="btn-table-delete" onclick="eliminarMultiUsuario(${index})">Quitar</button>
+                            </td>
+                        </tr>
+                    `;
+                }
+
+                if (tablaTarget) {
+                    tablaTarget.insertAdjacentHTML('beforeend', filaHTML);
+                }
+            });
+        });
+
+        function capturarYEnviarUsuario(rolDestino) {
+            const nombre = prompt(`[ALTA DE NUEVO ${rolDestino.toUpperCase()}]\nIngrese el Nombre Completo:`);
+            if(!nombre || nombre.trim() === "") return;
+            
+            const correo = prompt(`Ingrese el Correo de acceso para ${nombre.trim()}:`);
+            if(!correo || correo.trim() === "") return;
+            
+            const contrasenia = prompt(`Asigne la Contraseña para ${nombre.trim()}:`);
+            if(!contrasenia || contrasenia.trim() === "") return;
+
+            let rolEstandar = rolDestino;
+            if (rolDestino === 'Revisor') rolEstandar = 'Personal de Revisión';
+            if (rolDestino === 'Administrador') rolEstandar = 'Administrador Supremo';
+
+            let usuariosDestino = [];
+            try {
+                usuariosDestino = JSON.parse(localStorage.getItem('usuariosEcosystem')) || [];
+            } catch(e) {
+                usuariosDestino = [];
+            }
+            
+            usuariosDestino.push({
+                nombre: nombre.trim(),
+                correo: correo.trim().toLowerCase(),
+                clave: contrasenia.trim(),
+                rol: rolEstandar
+            });
+
+            localStorage.setItem('usuariosEcosystem', JSON.stringify(usuariosDestino));
+
+            alert(`¡Éxito Absoluto!\n\nUsuario registrado de forma local.`);
+            window.location.reload(); 
+        }
+
+        function eliminarMultiUsuario(index) {
+            if(confirm('¿Seguro que deseas eliminar este usuario del sistema local?')) {
+                let usuariosDestino = JSON.parse(localStorage.getItem('usuariosEcosystem')) || [];
+                usuariosDestino.splice(index, 1);
+                localStorage.setItem('usuariosEcosystem', JSON.stringify(usuariosDestino));
+                window.location.reload();
+            }
+        }
+
+        function editarElemento(nombre) {
+            prompt(`Modificando parámetros de: ${nombre}\nIngrese el cambio requerido:`);
+            alert('Cambio guardado localmente.');
+        }
+
+        function eliminarElemento() {
+            if(confirm('¿Seguro que deseas dar de baja este registro de muestra?')) {
+                alert('Registro de muestra eliminado.');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEGUNDA PARTE ECO-LEGAL - PANEL DE ALUMNO</title>
+    <link rel="stylesheet" href="1Inicio.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="logo-mini"><i class="fa-solid fa-leaf"></i></div>
+                <h2>DEVOPSENCPX<br>ECO-LEGAL</h2>
+            </div>
+
+            <div class="user-profile-box">
+                <div class="avatar"><i class="fa-solid fa-user-graduate"></i></div>
+                <h3 id="txtNombre">Cargando...</h3>
+                <p id="txtCorreo">alumno@uaemex.mx</p>
+                <span class="badge-role user-role" id="txtRol">Estudiante</span>
+            </div>
+
+            <nav class="nav-menu">
+                <a href="#" class="active"><i class="fa-solid fa-house"></i> Inicio</a>
+                <a href="#" id="btnLogout" class="logout-link"><i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="section-header">
+                <h2>BIENVENIDO ESTUDIANTE <span id="welcomeName">Usuario</span>!</h2>
+                <p>CONTROL DE GESTION DOCUMENTAL SUSTENTABLE - UAEM VALLE DE MEXICO</p>
+            </div>
+
+            <form action="SubirDocumentoController" method="POST" enctype="multipart/form-data" id="formUpload">
+                <input type="file" id="fileInput" name="archivo" accept=".pdf" style="display: none;" required>
+                
+                <div class="upload-zone" id="dropZone" style="cursor: pointer;">
+                    <div class="pdf-upload-icon"><i class="fa-regular fa-file-pdf"></i></div>
+                    <h3>POR FAVOR AGREGA TUS DOCUMENTOS AQUI <span>EXAMINANDO LOS ARCHIVOS</span></h3>
+                    <p id="uploadPrompt">SOLO SE PERMITIRAN ARCHIVOS QUE LA INSTITUCION TE ESTA PIDIENDO (Máx. 10MB)</p>
+                </div>
+            </form>
+
+            <div class="table-container">
+                <h3>ULTIMOS DOCUMENTOS CARGADOS</h3>
+                <table class="styled-table" id="tablaDocumentos">
+                    <thead>
+                        <tr>
+                            <th>Nombre del Archivo</th>
+                            <th>Fecha de Envío</th>
+                            <th>Tipo de Documento</th>
+                            <th>Estado Del Documento</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><i class="fa-regular fa-file-pdf text-danger"></i> Servicio_Social_Pablo.pdf</td>
+                            <td>25/05/2026</td>
+                            <td>Liberación Jurídica</td>
+                            <td><span class="status-badge pending"><i class="fa-regular fa-clock"></i> Pendiente</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Cargar datos de sesión del LocalStorage
+            const nombre = localStorage.getItem('usuarioNombre') || 'Estudiante';
+            document.getElementById('txtNombre').textContent = nombre;
+            document.getElementById('welcomeName').textContent = nombre;
+            document.getElementById('txtRol').textContent = localStorage.getItem('usuarioRol') || 'Estudiante';
+            
+            // Evento para cerrar sesión
+            document.getElementById('btnLogout').addEventListener('click', () => {
+                localStorage.clear();
+                window.location.href = '0Index.css.html';
+            });
+
+            // --- INTERACCIÓN DE LA ZONA DE SUBIDA ---
+            const dropZone = document.getElementById('dropZone');
+            const fileInput = document.getElementById('fileInput');
+            const formUpload = document.getElementById('formUpload');
+            const uploadPrompt = document.getElementById('uploadPrompt');
+
+            // Al hacer clic en la zona gris, abre el explorador de archivos de Windows
+            dropZone.addEventListener('click', () => fileInput.click());
+
+            // Cuando el usuario selecciona un archivo
+            fileInput.addEventListener('change', () => {
+                if (fileInput.files.length > 0) {
+                    const fileName = fileInput.files[0].name;
+                    // Mostrar mensaje de éxito temporal antes de enviar
+                    uploadPrompt.innerHTML = `<strong>Archivo seleccionado:</strong> ${fileName}`;
+                    uploadPrompt.style.color = "#2e7d32"; 
+                    
+                    // Espera un segundo para que el usuario vea el cambio y envía el formulario al Servlet
+                    setTimeout(() => {
+                        formUpload.submit();
+                    }, 1000); 
+                }
+            });
+
+            // --- EFECTOS DE DRAG & DROP (ARRASTRAR Y SOLTAR) ---
+            dropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropZone.style.background = '#e8f5e9'; // Cambia el fondo a verde claro al arrastrar encima
+            });
+
+            dropZone.addEventListener('dragleave', () => {
+                dropZone.style.background = ''; // Restaura el fondo original si el usuario saca el archivo
+            });
+
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropZone.style.background = '';
+                
+                if (e.dataTransfer.files.length > 0) {
+                    // Asigna el archivo arrastrado al input oculto y dispara el evento de envío
+                    fileInput.files = e.dataTransfer.files;
+                    fileInput.dispatchEvent(new Event('change'));
+                }
+            });
+        });
+    </script>
+</body>
+</html>
